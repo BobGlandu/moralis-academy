@@ -1,0 +1,70 @@
+.runningLeg1{
+    animation: moveLeg1 0.5s infinite;
+}
+
+.runningLeg2{
+    animation: moveLeg2 0.5s infinite;
+    animation-delay: 0.1s;
+}
+
+.hiding{
+    animation: kfHiding;
+    animation-duration: 10s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes moveLeg1{
+    0%{
+        transform: rotate(0deg);
+    }
+
+    50%{
+        transform: rotate(-40deg);
+    }    
+
+    100%{
+        transform: rotate(40deg);
+    }
+}
+
+@keyframes moveLeg2{
+    0%{
+        transform: rotate(0deg);
+    }
+
+    50%{
+        transform: rotate(40deg);
+    }
+
+    100%{
+        transform: rotate(-40deg);
+    }
+}
+
+
+@keyframes kfHiding{
+    0%{
+        opacity: 100%;
+    }
+
+    10%{
+        opacity: 0%;
+    }
+
+    50%{
+        opacity: 5%;
+    }
+
+    60%{
+        opacity: 0%;
+    }
+
+    80%{
+        opacity: 5%;
+    }
+
+    100%{
+        opacity: 0%;
+    }
+    
+}

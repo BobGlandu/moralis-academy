@@ -1,0 +1,160 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy kitties </title>
+    <script type="text/javascript" src="assets/js/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <script src="assets/bootstrap/js/popper.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/mystyle.css">
+    <link rel="stylesheet" href="assets/css/cats.css">
+    <link rel="stylesheet" href="assets/css/scared_cat.css">
+    <link rel="stylesheet" href="assets/css/colors.css">
+    <link rel="stylesheet" href="assets/css/factory.css">
+    <link rel="stylesheet" href="assets/css/frontend.css">
+</head>
+
+<body>
+    <div class="container p-5" style="margin-top: 12vh;margin-bottom: 10vh;">
+        <div align="center">
+            <h1 class="c-white">Kitty Freakout</h1>
+            <p class="c-white">This kitty accidently broke an OFAC sanction</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 catBox m-2 light-b-shadow">
+                <div class="cat">
+                    <div class="ears">
+                        <div class="ear left-ear"></div>
+                        <div class="ear right-ear"></div>
+                    </div>
+                    <div id="head">
+                        <div class="eyes">
+                            <div class="eye">
+                                <div class="pupils"></div>
+                            </div>
+                            <div class="eye">
+                                <div class="pupils"></div>
+                            </div>
+                        </div>
+
+                        <div class="mouth">
+
+                        </div>
+
+                    </div>
+                    <div class="catbody">
+                        <div class="legs">
+                            <div class="legs" id="leg1"></div>
+                            <div class="legs" id="leg2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <div class="dnaDiv" id="catDNA">
+                    <b>
+                        DNA:
+                        <!-- Colors -->
+                        <span id="dnabody"></span>
+                        <span id="dnahead"></span>
+                        <span id="dnaears"></span>
+                        <span id="dnalegs"></span>
+
+                        <!-- Cattributes -->
+                        <span id="dnashape"></span>
+                        <span id="dnaactivity"></span>
+                        <span id="dnaprivacy"></span>
+                        <span id="dnamouth"></span>
+                        <span id="dnaanimation"></span>
+                        <span id="dnaspecial"></span>
+                    </b>
+                </div>
+            </div>
+            <div class="col-lg-5 cattributes m-2 light-b-shadow">
+
+                <p>
+                <div class="tab-menu">
+                    <div class="tab-buttons">
+                        <label><input type="radio" name="tab-menu" value=1>Colors</label>
+                        <label><input type="radio" name="tab-menu" value=2>Cattributes</label>
+                    </div>
+                </div>
+                </p>
+
+                <div class="tabs">
+                    <div id="tab-colors">
+                        <div class="form-group">
+                            <label for="formControlRange"><b>Body</b><span class="badge badge-dark ml-2"
+                                    id="bodycode"></span></label>
+                            <input type="range" min="10" max="98" class="form-control-range" id="bodycolor">
+                            <label for="formControlRange"><b>Head</b><span class="badge badge-dark ml-2"
+                                    id="headcode"></span></label>
+                            <input type="range" min="10" max="98" class="form-control-range" id="headcolor">
+                            <label for="formControlRange"><b>Ears</b><span class="badge badge-dark ml-2"
+                                    id="earscode"></span></label>
+                            <input type="range" min="10" max="98" class="form-control-range" id="earscolor">
+                            <label for="formControlRange"><b>Legs</b><span class="badge badge-dark ml-2"
+                                    id="legscode"></span></label>
+                            <input type="range" min="10" max="98" class="form-control-range" id="legscolor">
+                        </div>
+                    </div>
+                    <div id="tab-cattributes">
+
+                        <div class="form-group">
+                            <label for="formControlRange"><b>Eye Shape</b>
+                                <span class="badge badge-dark ml-2" id="eyeshapecode"></span>
+                            </label>
+                            <input type="range" min="1" max="3" class="form-control-range" id="eyeshape">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label><b>Activity</b></label>
+
+                            <label><input type="radio" name="decoration" value=1>Run</label>
+
+                            <label><input type="radio" name="decoration" value=2>Rest</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formControlRange"><b>Privacy</b>
+                                <span class="badge badge-dark ml-2" id="incognitocode"></span>
+                            </label>
+                            <input type="range" min="0" max="10" class="form-control-range" id="incognito">
+
+                            <label for="formControlRange"><b>Mouth color</b>
+                                <span class="badge badge-dark ml-2" id="mouthcolorcode"></span>
+                            </label>
+                            <input type="range" min="1" max="90" class="form-control-range" id="mouthcolor">
+
+                            <label for="formControlRange"><b>Animation</b>
+                                <span class="badge badge-dark ml-2" id="animationcode"></span>
+                            </label>
+                            <input type="range" min="0" max="2" class="form-control-range" id="animation">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p align="center">
+            <button id="randomkitty" class="white-btn">Get random kitty</button>
+            <button id="defaultkitty" class="white-btn">Reset to factory settings</button>
+            <button id="createkitty" class="red-btn">Mint new kitty</button>
+        </p>
+    </div>
+
+    <footer align="left">
+        <p>Ivan on Tech Academy Bootcamp July 2020</p>
+    </footer>
+
+</body>
+<script src="assets/js/colors.js"></script>
+<script src="assets/js/catSettings.js"></script>
+<script src="assets/js/catFactory.js"></script>
+
+</html>
