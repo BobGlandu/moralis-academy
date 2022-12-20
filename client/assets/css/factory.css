@@ -19,3 +19,10 @@
     bottom: 5px;
 
 }
+
+#notifications {
+    font-style: italic;
+    text-align: center;
+    color: whitesmoke;
+}
+

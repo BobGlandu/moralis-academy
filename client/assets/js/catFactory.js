@@ -287,3 +287,9 @@ function computeRandomKitty(){
     return randomDNA
 }
 
+
+
+function notify(message)
+{
+    $('#notifications').html(message);
+}

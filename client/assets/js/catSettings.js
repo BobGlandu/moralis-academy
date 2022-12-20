@@ -157,9 +157,18 @@ $("#randomkitty").click(()=>{
   randomDNA = computeRandomKitty()
 
   renderCat(randomDNA)
+
+  console.log('Created a random kitty with dna ' + getDna());
 })
 
 // default kitty button
 $("#defaultkitty").click(()=>{
   renderCat(defaultDNA)  
 })
+
+
+
+
+
+
+
