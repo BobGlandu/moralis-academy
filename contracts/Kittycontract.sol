@@ -30,6 +30,10 @@ contract Kittycontract is IERC721, Ownable {
     //Associates a token id with its owner
     mapping(uint256 => address) private tokenowners;
 
+    //Approvers of a token id
+    mapping(uint256 => address) private tokenApprovers;
+    mapping(address => mapping(address => bool)) private ownerApprovers;
+
     function balanceOf(address owner) external view returns (uint256 balance) {
         return balances[owner];
     }
@@ -60,7 +64,7 @@ contract Kittycontract is IERC721, Ownable {
         address owner = tokenowners[tokenId];
 
         require(owner != address(0), "Token id does not exist");
-        require(msg.sender == owner, "only owner can make a transfer");
+        require(msg.sender == owner || tokenApprovers[tokenId] == msg.sender || ownerApprovers[owner][msg.sender] == true, "only owner/approver can make a transfer");
 
         _transfer(owner, to, tokenId);
     }
@@ -78,6 +82,8 @@ contract Kittycontract is IERC721, Ownable {
 
         tokenowners[_tokenId] = _to;
         balances[_to]++;
+        // Account approved on this token should be revoked
+        delete tokenApprovers[_tokenId];
 
         emit Transfer(_from, _to, _tokenId);
     }
@@ -130,4 +136,59 @@ contract Kittycontract is IERC721, Ownable {
 
         emit Birth(_owner, newKittyTokenId, _dadId, _mumId, _genes);
     }
+
+    function approve(address _approved, uint256 _tokenId) external{
+
+        require(_tokenId < kitties.length, "Token id does not exist");
+
+        //msg.sender must be the owner or an existing operator of tokenId
+        address tokenOwner = tokenowners[_tokenId];
+
+        require( (tokenOwner == msg.sender || ownerApprovers[tokenOwner][msg.sender] == true) , 'Caller is not owner of the token or an approver of the token owner'); 
+
+        _approve(_approved, _tokenId);        
+
+    }
+
+    /// @notice Change or reaffirm the approved address for an NFT
+    /// @dev The zero address indicates there is no approved address.
+    ///  Throws unless `msg.sender` is the current NFT owner, or an authorized
+    ///  operator of the current owner.
+    /// @param _approved The new approved NFT controller
+    /// @param _tokenId The NFT to approve
+    function _approve(address _approved, uint256 _tokenId) private{
+
+        tokenApprovers[_tokenId] = _approved;     
+    }
+
+    /// @notice Enable or disable approval for a third party ("operator") to manage
+    ///  all of `msg.sender`'s assets
+    /// @dev Emits the ApprovalForAll event. The contract MUST allow
+    ///  multiple operators per owner.
+    /// @param _operator Address to add to the set of authorized operators
+    /// @param _approved True if the operator is approved, false to revoke approval
+    function setApprovalForAll(address _operator, bool _approved) external{
+        
+        ownerApprovers[msg.sender][_operator] = _approved;
+    }
+
+    /// @notice Get the approved address for a single NFT
+    /// @dev Throws if `_tokenId` is not a valid NFT.
+    /// @param _tokenId The NFT to find the approved address for
+    /// @return The approved address for this NFT, or the zero address if there is none
+    function getApproved(uint256 _tokenId) external view returns (address){
+        require(_tokenId < kitties.length, "Invalid token id");
+
+        return tokenApprovers[_tokenId];
+
+    }
+
+    /// @notice Query if an address is an authorized operator for another address
+    /// @param _owner The address that owns the NFTs
+    /// @param _operator The address that acts on behalf of the owner
+    /// @return True if `_operator` is an approved operator for `_owner`, false otherwise
+    function isApprovedForAll(address _owner, address _operator) external view returns (bool){
+        return ownerApprovers[_owner][_operator];
+    }
+
 }
