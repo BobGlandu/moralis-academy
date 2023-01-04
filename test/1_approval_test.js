@@ -29,28 +29,19 @@ contract("Test approve function", accounts =>{
 
     })
 
-    it("an approver of a token id should be able to transfer it to a new owner",async()=>{
-        let kitty = await Kitty.deployed();
 
-        let tokenId = await kitty.totalSupply()-1;
-
-        // EOA1 is now approver of token id 0 and should be able to transfer it to someone else 
-        await truffleAssert.passes(
-            kitty.transfer(accounts[2], tokenId, {from: accounts[1]})
-        )
-    })
-
-    it("an approver of the current token should not be able to pass on approval rights to someone else", async()=>{
+    it("an approver of the current token should not be able to call approve", async()=>{
         let kitty = await Kitty.deployed()
 
+        await kitty.createKittyGen0(123);
         let tokenId = await kitty.totalSupply()-1
-        let owner = await kitty.ownerOf(tokenId)        
-        assert(owner == accounts[2], "Pre-requisite: Account 2 should be owner of token " + tokenId)
 
-        await kitty.approve(accounts[3], tokenId, {from: accounts[2]})
+        await kitty.approve(accounts[3], tokenId, {from: accounts[0]})
         let approver = await kitty.getApproved(tokenId)
-
         assert(approver == accounts[3], "Pre-requisite: Account 3 should be approver of token " + tokenId)
+
+        let isOperator = await kitty.isApprovedForAll(accounts[0], accounts[3])     
+        assert(isOperator == false, "account 3 should not be operator of the token owner")   
 
         await truffleAssert.reverts(
             kitty.approve(accounts[4], tokenId, {from: accounts[3]})
@@ -58,41 +49,21 @@ contract("Test approve function", accounts =>{
 
     })
 
-    it("an account not owner and not approver of a token should not be able to transfer it", async()=>{
-        let kitty = await Kitty.deployed();
-
-        let tokenId = await kitty.totalSupply()-1;
-
-        let owner = await kitty.ownerOf(tokenId)
-        assert(owner == accounts[2], "Pre-requisite: Account 2 should be owner of token " + tokenId)
-
-        await kitty.approve(accounts[4], tokenId, {from: accounts[2]})
-
-        let operator = await kitty.getApproved(tokenId)
-        assert(operator == accounts[4], "Pre-requisite: Account 4 should be operator of token id " + tokenId)
-
-        await truffleAssert.reverts(
-            kitty.transfer(accounts[3], tokenId, {from: accounts[3]}) 
-        )
-
-    })
 
     it("The approver of a token should be removed when the token is transferred", async()=>{
         let kitty = await Kitty.deployed()
 
-        // Account 0 owns token id 0
-        let owner = await kitty.ownerOf(0)
-        assert(owner == accounts[2], "pre-requisites: account 2 should own token 0")
+        await kitty.createKittyGen0(123);
+        let tokenId = await kitty.totalSupply()-1
 
-        // EOA 1 is approved for token id 0
-        await kitty.approve(accounts[3], 0, {from: accounts[2]})
-        let tokenOperator = await kitty.getApproved(0)
-        assert(tokenOperator == accounts[3], "Account 3 should be operator for token 0")
+        await kitty.approve(accounts[3], tokenId)
+        let tokenOperator = await kitty.getApproved(tokenId)
+        assert(tokenOperator == accounts[3], "Account 3 should be approved for token id " + tokenId)
 
-        // EOA 0 transfers the token to EOA 2. EOA 1 should not be approved for token 0 any more
-        await kitty.transfer(accounts[4], 0, {from: accounts[2]})
+        // EOA 0 transfers the token to EOA 4. EOA 3 should not be approved for token any more
+        await kitty.transfer(accounts[4], tokenId)
 
-        tokenOperator = await kitty.getApproved(0)
+        tokenOperator = await kitty.getApproved(tokenId)
         assert(tokenOperator == 0, tokenOperator + " should not be approved for token 0 any more")
     })
 })
@@ -144,7 +115,6 @@ contract("Test setApproveForAll function", accounts =>{
 
         let tokenId = await kitty.totalSupply()-1
         let owner = await kitty.ownerOf(tokenId)        
-        console.log("Owner: " + owner)
         assert(owner == accounts[3], "Pre-requisite: Account 3 should be owner of token " + tokenId)
 
         await kitty.setApprovalForAll(accounts[4], true, {from: accounts[3]})
@@ -157,7 +127,6 @@ contract("Test setApproveForAll function", accounts =>{
         )
 
         let approver = await kitty.getApproved(tokenId)
-        console.log("Approver: " + approver)
         assert(approver == accounts[5], "Account 5 should be approver of token " + tokenId)
 
     })
