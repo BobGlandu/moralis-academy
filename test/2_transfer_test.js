@@ -84,6 +84,30 @@ contract("Test transferFrom function", accounts =>{
 
     })
 
+    it("should throw if _from is not the current owner", async()=>{
+        let kitty = await Kitty.deployed();
+
+        await kitty.createKittyGen0(123)
+        let tokenId = await kitty.totalSupply()-1;
+
+        await truffleAssert.reverts(
+            kitty.transferFrom(accounts[1], accounts[4], tokenId, {from: accounts[0]})
+        )
+
+    })    
+
+    it("should fail if _to is the 0 address", async()=>{
+        let kitty = await Kitty.deployed();
+
+        await kitty.createKittyGen0(123)
+        let tokenId = await kitty.totalSupply()-1;
+
+        await truffleAssert.fails(
+            // the ABI raises an error
+            kitty.transferFrom(accounts[0], 0, tokenId, {from: accounts[0]})
+        )
+    })
+
 })
 
 

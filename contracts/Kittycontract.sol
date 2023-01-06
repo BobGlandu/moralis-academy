@@ -173,6 +173,8 @@ contract Kittycontract is IERC721, Ownable {
     function setApprovalForAll(address _operator, bool _approved) external{
         
         ownerApprovers[msg.sender][_operator] = _approved;
+
+        emit ApprovalForAll(msg.sender, _operator, _approved);
     }
 
     /// @notice Get the approved address for a single NFT
@@ -208,6 +210,9 @@ contract Kittycontract is IERC721, Ownable {
     /// @param data Additional data with no specified format, sent in call to `_to`
     function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes calldata data) external{
 
+        _transferFrom(_from, _to, _tokenId);
+
+        //TBD
     }
 
     /// @notice Transfers the ownership of an NFT from one address to another address
@@ -217,8 +222,8 @@ contract Kittycontract is IERC721, Ownable {
     /// @param _to The new owner
     /// @param _tokenId The NFT to transfer
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) external{
-    
     }
+
 
     /// @notice Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE
     ///  TO CONFIRM THAT `_to` IS CAPABLE OF RECEIVING NFTS OR ELSE
@@ -231,19 +236,24 @@ contract Kittycontract is IERC721, Ownable {
     /// @param _to The new owner
     /// @param _tokenId The NFT to transfer
     function transferFrom(address _from, address _to, uint256 _tokenId) external{
+        _transferFrom(_from, _to, _tokenId);
+    }    
+
+    function _transferFrom(address _from, address _to, uint256 _tokenId) private{
         //msg.sender must be the owner or an existing operator of tokenId
-        require(_to != address(0), "invalid to address");
-        require(_to != address(this), "to cannot be the contract address");
+        require(_to != address(0), "invalid _to address");
         require(_tokenId < kitties.length, "Invalid token id");
 
         address tokenOwner = tokenowners[_tokenId];
-        address approver = tokenApprovers[_tokenId];
+        require(_from == tokenOwner, "_from should be the token owner");
 
+        address approver = tokenApprovers[_tokenId];    
         require( (tokenOwner == msg.sender 
         || ownerApprovers[tokenOwner][msg.sender] == true
         || approver == msg.sender) , 'Caller is not owner of the token or an operator of the token owner or an approver of the token'); 
 
         _transfer(_from, _to, _tokenId);
 
-    }    
+    }
+
 }

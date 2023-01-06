@@ -95,10 +95,6 @@ contract("Test setApproveForAll function", accounts =>{
         let approved = await kitty.isApprovedForAll(accounts[0], accounts[2])
         assert(approved == true, "Account 2 should be approver of account 0")
 
-        // await truffleAssert.require(
-        //     kitty.isApprovedForAll(accounts[0], accounts[2])== true,
-        //     "Account 2 should be approver of account 0"
-        //     )
 
         // EOA 2 should be able to transfer token id 0 to another address
         await truffleAssert.passes(
@@ -131,5 +127,23 @@ contract("Test setApproveForAll function", accounts =>{
 
     })
 
+//     it("should emit ApprovalForAll event", async()=>{
+//         let kitty = await Kitty.deployed();
+
+//         // EOA 0 owns token id 0
+//         await kitty.createKittyGen0(123)
+
+//         await kitty.setApprovalForAll(accounts[1], true, {from: accounts[0]})
+
+
+
+//         // EOA 1 is approver of EOA 0
+//         await truffleAssert.eventEmitted(
+//             kitty.setApprovalForAll(accounts[1], true, {from: accounts[0]})
+//         )
+
+//    })
+
 
 })
+
