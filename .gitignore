@@ -25,6 +25,3 @@ node_modules/truffle-assertions/README.md
 build/contracts/IERC721.json
 build/contracts/Kittycontract.json
 build/contracts/Migrations.json
-build/contracts/IERC721.json
-build/contracts/Kittycontract.json
-build/contracts/Migrations.json
