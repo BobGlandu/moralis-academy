@@ -7,7 +7,7 @@ https://academy.moralis.io/courses/ethereum-dapp-programming
 ## How to run the project?
 
 
-Pre-requisites: the project runs within truffle suite.
+Pre-requisites: the project runs within truffle suite. You must have truffle installed.
 
 1. Install truffle-assertions:
 
