@@ -5,7 +5,12 @@ pragma solidity ^0.8.0;
 import "./IERC721.sol";
 import "./Ownable.sol";
 
-contract Kittycontract is IERC721, Ownable {
+
+interface ISupportsERC721{
+    function onERC721Received(address,address,uint256,bytes calldata) external returns (bytes4);
+}
+
+contract Kittycontract is IERC721, Ownable, ISupportsERC721 {
     struct Kitty {
         uint256 genes;
         uint64 birthTime;
@@ -196,6 +201,12 @@ contract Kittycontract is IERC721, Ownable {
         return ownerApprovers[_owner][_operator];
     }
 
+
+    function onERC721Received(address,address,uint256,bytes calldata) external pure returns (bytes4){
+        return bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
+    }
+
+
     /// @notice Transfers the ownership of an NFT from one address to another address
     /// @dev Throws unless `msg.sender` is the current owner, an authorized
     ///  operator, or the approved address for this NFT. Throws if `_from` is
@@ -210,9 +221,17 @@ contract Kittycontract is IERC721, Ownable {
     /// @param data Additional data with no specified format, sent in call to `_to`
     function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes calldata data) external{
 
+        if (_to.code.length > 0 ){
+
+            bytes4 result = ISupportsERC721(_to).onERC721Received(_from, _to, _tokenId, data);
+
+            bytes4 expectedResult = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
+
+            require(result == expectedResult, "_to address does not support ERC721 contract");
+        }        
+
         _transferFrom(_from, _to, _tokenId);
 
-        //TBD
     }
 
     /// @notice Transfers the ownership of an NFT from one address to another address
@@ -222,6 +241,18 @@ contract Kittycontract is IERC721, Ownable {
     /// @param _to The new owner
     /// @param _tokenId The NFT to transfer
     function safeTransferFrom(address _from, address _to, uint256 _tokenId) external{
+
+        if (_to.code.length > 0 ){
+
+            bytes4 result = ISupportsERC721(_to).onERC721Received(_from, _to, _tokenId, "");
+
+            bytes4 expectedResult = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
+
+            require(result == expectedResult, "_to address does not support ERC721 contract");
+        }
+
+        _transferFrom(_from, _to, _tokenId);
+
     }
 
 
@@ -236,6 +267,8 @@ contract Kittycontract is IERC721, Ownable {
     /// @param _to The new owner
     /// @param _tokenId The NFT to transfer
     function transferFrom(address _from, address _to, uint256 _tokenId) external{
+
+
         _transferFrom(_from, _to, _tokenId);
     }    
 

@@ -17,11 +17,6 @@ contract("Test transferFrom function", accounts =>{
         let approver = await kitty.getApproved(0)
         assert(approver != accounts[1], "Pre-requisite: msg.sender is not approver")
 
-        // await truffleAssert.reverts(
-        //     kitty.transferFrom(accounts[0], accounts[2], 0, {from: accounts[1]}),
-        //     "should throw if msg.sender is not the owner, operator or token approver"
-        // )
-
         await truffleAssert.reverts(
             kitty.transferFrom(accounts[0], accounts[2], 0, {from: accounts[1]})
         )

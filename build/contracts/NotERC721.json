@@ -1,0 +1,78 @@
+{
+  "contractName": "NotERC721",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/NotERC721.sol\":\"NotERC721\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/NotERC721.sol\":{\"keccak256\":\"0x1281ae1b2830cefb4acfd818cecd79ff2b6ac1b182d84fdfc8c9b24be3110dd8\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://135d4a641fb59fa40cefbd76c188f1e9011585d47b35dd1efac00f0971dcd349\",\"dweb:/ipfs/QmaEeikoU7hLRgLhRwauJVvXjPhKzi2kmR4Z91J8gMr8FB\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220631e2db669c8eb9095efd5ccfb5d4ac1ea6fe8e926d1a0596e736e469d58068564736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220631e2db669c8eb9095efd5ccfb5d4ac1ea6fe8e926d1a0596e736e469d58068564736f6c63430008110033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "110:23:2:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "110:23:2:-:0;;;;;",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\n// this contract is used only for testing.\n\ncontract NotERC721 {\n\n}\n",
+  "sourcePath": "/media/psf/Ivan/NFT-marketplace/mygitrepo3/moralisacademy-nftmarketplace/contracts/NotERC721.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/NotERC721.sol",
+    "exportedSymbols": {
+      "NotERC721": [
+        872
+      ]
+    },
+    "id": 873,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 871,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:32:2"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "NotERC721",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 872,
+        "linearizedBaseContracts": [
+          872
+        ],
+        "name": "NotERC721",
+        "nameLocation": "119:9:2",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 873,
+        "src": "110:23:2",
+        "usedErrors": []
+      }
+    ],
+    "src": "32:102:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.10",
+  "updatedAt": "2023-01-12T10:38:42.798Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
