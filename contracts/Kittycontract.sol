@@ -4,13 +4,13 @@ pragma solidity ^0.8.0;
 
 import "./IERC721.sol";
 import "./Ownable.sol";
-
+import "./IERC165.sol";
 
 interface ISupportsERC721{
     function onERC721Received(address,address,uint256,bytes calldata) external returns (bytes4);
 }
 
-contract Kittycontract is IERC721, Ownable, ISupportsERC721 {
+contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
     struct Kitty {
         uint256 genes;
         uint64 birthTime;
@@ -206,6 +206,11 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721 {
         return bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
     }
 
+    // Implement IERC165
+    function supportsInterface(bytes4 interfaceID) external pure returns (bool){
+        return (interfaceID == 0x80ac58cd || interfaceID == 0x01ffc9a7);
+    }
+
 
     /// @notice Transfers the ownership of an NFT from one address to another address
     /// @dev Throws unless `msg.sender` is the current owner, an authorized
@@ -223,7 +228,7 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721 {
 
         if (_to.code.length > 0 ){
 
-            bytes4 result = ISupportsERC721(_to).onERC721Received(_from, _to, _tokenId, data);
+            bytes4 result = ISupportsERC721(_to).onERC721Received(msg.sender, _from, _tokenId, data);
 
             bytes4 expectedResult = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
 
@@ -244,7 +249,7 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721 {
 
         if (_to.code.length > 0 ){
 
-            bytes4 result = ISupportsERC721(_to).onERC721Received(_from, _to, _tokenId, "");
+            bytes4 result = ISupportsERC721(_to).onERC721Received(msg.sender, _from, _tokenId, "");
 
             bytes4 expectedResult = bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
 

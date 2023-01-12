@@ -18,11 +18,9 @@ contract("Test safeTansferFrom function", accounts =>{
             kitty.safeTransferFrom(accounts[0], notERC721.address, tokenid)
         )
 
-
         await truffleAssert.reverts(
             kitty.safeTransferFrom(accounts[0], notERC721.address, tokenid, 0)
         )
-
     })
 
     it("should pass if _to is an EOA ", async()=>{
