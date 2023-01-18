@@ -280,8 +280,8 @@ function computeRandomKitty(){
     //Cattributes
     randomDNA.eyesShape = Math.floor(Math.random()*3+1)
     randomDNA.activity =  Math.floor(Math.random()*2+1)
-    randomDNA.privacy = Math.floor(Math.random()*11)
-    randomDNA.mouthColor = Math.floor(Math.random()*90+1)
+    randomDNA.privacy = Math.floor(Math.random()*10)
+    randomDNA.mouthColor = Math.floor(Math.random()*88+10)
     randomDNA.animation = Math.floor(Math.random()*3)
 
     return randomDNA

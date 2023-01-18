@@ -39,6 +39,7 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
     mapping(uint256 => address) private tokenApprovers;
     mapping(address => mapping(address => bool)) private ownerApprovers;
 
+
     function balanceOf(address owner) external view returns (uint256 balance) {
         return balances[owner];
     }
@@ -57,15 +58,18 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
 
     // Reverts if a token id does not exists?
     function ownerOf(uint256 tokenid) external view returns (address owner) {
+
+        _validateToken(tokenid);
         owner = tokenowners[tokenid];
 
         require(owner != address(0), "Token id does not exist");
     }
 
+
     function transfer(address to, uint256 tokenId) external {
+        _validateToken(tokenId);
         require(to != address(0), "invalid to address");
         require(to != address(this), "to cannot be the contract address");
-        require(tokenId < kitties.length, "Invalid token id");
 
         address owner = tokenowners[tokenId];
 
@@ -74,6 +78,7 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
 
         _transfer(owner, to, tokenId);
     }
+
 
     function _transfer(
         address _from,
@@ -96,6 +101,26 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
 
     function createKittyGen0(uint256 _genes) public onlyOwner {
         _createKitty(0, 0, 0, _genes, msg.sender);
+    }
+
+
+    function breed(uint32 _mumId, uint32 _dadId) external {
+        _validateToken(_mumId);
+        _validateToken(_dadId);
+
+        // Check ownership
+        require(tokenowners[_mumId] == msg.sender, "Caller does not own mum id");
+        require(tokenowners[_dadId] == msg.sender, "Caller does not own dad id");
+        
+        // Calculate the new dna
+        Kitty storage mum = kitties[_mumId];
+        Kitty storage dad = kitties[_dadId];
+
+        uint256 newGenes = _mixGenes(mum.genes, dad.genes);
+
+        // mint the new kitty
+        _createKitty(_mumId, _dadId, mum.generation+1, newGenes, msg.sender);
+
     }
 
     function getKitty(uint256 _id)
@@ -126,7 +151,7 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
         uint16 _generation,
         uint256 _genes,
         address _owner
-    ) internal returns (uint256) {
+    ) internal returns (uint32 newKittyTokenId) {
         Kitty memory _kitty = Kitty({
             genes: _genes,
             birthTime: uint64(block.timestamp),
@@ -136,18 +161,27 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
         });
 
         kitties.push(_kitty);
-        uint256 newKittyTokenId = kitties.length - 1;
+        newKittyTokenId = uint32(kitties.length - 1);
 
         _transfer(address(0), _owner, newKittyTokenId);
 
         emit Birth(_owner, newKittyTokenId, _dadId, _mumId, _genes);
+    }
 
-        return newKittyTokenId;
+
+    function _validateToken(uint256 _tokenId) private view {
+        require(_tokenId < kitties.length, "Token id does not exist");        
+    }
+
+
+    function _mixGenes(uint256 mumDna, uint256 dadDna) private pure returns (uint256 childDna){
+
+        childDna = (mumDna / 1000000)*1000000 + dadDna % 1000000;
     }
 
     function approve(address _approved, uint256 _tokenId) external{
 
-        require(_tokenId < kitties.length, "Token id does not exist");
+        _validateToken(_tokenId);
 
         //msg.sender must be the owner or an existing operator of tokenId
         address tokenOwner = tokenowners[_tokenId];
@@ -187,7 +221,7 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
     /// @param _tokenId The NFT to find the approved address for
     /// @return The approved address for this NFT, or the zero address if there is none
     function getApproved(uint256 _tokenId) external view returns (address){
-        require(_tokenId < kitties.length, "Invalid token id");
+        _validateToken(_tokenId);
 
         return tokenApprovers[_tokenId];
 
@@ -278,9 +312,8 @@ contract Kittycontract is IERC721, Ownable, ISupportsERC721, IERC165 {
     }    
 
     function _transferFrom(address _from, address _to, uint256 _tokenId) private{
-        //msg.sender must be the owner or an existing operator of tokenId
+        _validateToken(_tokenId);
         require(_to != address(0), "invalid _to address");
-        require(_tokenId < kitties.length, "Invalid token id");
 
         address tokenOwner = tokenowners[_tokenId];
         require(_from == tokenOwner, "_from should be the token owner");

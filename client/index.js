@@ -2,8 +2,8 @@ var web3 = new Web3(Web3.givenProvider);
 
 var instance;
 var user;
-// var contractAddress = "0x1753C9f8bFd56c0A21D9a6552bDC7A5cbE0a3E5b";//Truffle develop
-var contractAddress = "0xcCBF509F24647cC356947F572BD6DA594E790D54";  //Ganache
+var contractAddress = "0x1753C9f8bFd56c0A21D9a6552bDC7A5cbE0a3E5b";//Truffle develop
+// var contractAddress = "0xcCBF509F24647cC356947F572BD6DA594E790D54";  //Ganache
 
 function notify(message)
 {

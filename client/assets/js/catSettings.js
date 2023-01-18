@@ -44,6 +44,7 @@ function getDna(){
     dna += $('#dnahead').html()
     dna += $('#dnaears').html()
     dna += $('#dnalegs').html()
+    
     dna += $('#dnashape').html()
     dna += $('#dnaactivity').html()
     dna += $('#dnaprivacy').html()
