@@ -2,22 +2,66 @@ var web3 = new Web3(Web3.givenProvider);
 
 var instance;
 var user;
-var contractAddress = "0x1753C9f8bFd56c0A21D9a6552bDC7A5cbE0a3E5b";//Truffle develop
-// var contractAddress = "0xcCBF509F24647cC356947F572BD6DA594E790D54";  //Ganache
+// var contractAddress = "0x1753C9f8bFd56c0A21D9a6552bDC7A5cbE0a3E5b";//Truffle develop
+var contractAddress = "0xD7321D5a196CF15e5a85390bDB0aC946092720f5";  //Ganache
 
-function notify(message)
-{
-    $('#notifications').html(message);
-}
 
 $(document).ready(() => {
 
+
+})
+
+
+// Button handlers
+
+$("#createkitty").click(async () => {
+
+  if (!connected()){
+    notify("Not connected");
+    return;
+  }
+
+  var currentDna = getDna();
+
+  notify("Creating a new kitty...");
+
+  console.log("Calling createKittyGen0...");
+
+  instance.methods.createKittyGen0(currentDna).send({})
+  .on('transactionhash', (txhash) => {
+    console.log(txhash);
+    notify(txhash);
+  })
+  .on('confirmation', (confnum, receipt)=>{
+    console.log('Confirmation number: '+ confnum);
+    notify(confnum +' confirmation');
+  })
+  .on('receipt', (receipt)=>{
+    console.log('Received a transaction receipt');
+    console.log('createKittyGen0 called');      
+  })
+  .on('error', (error)=>{
+    console.log('error');
+    notify(error.message);
+  });
+
+})
+
+
+$("#loginbutton").click(async()=>{
   console.log('Calling provider.request()...');
 
-  window.ethereum.request({ method: 'eth_requestAccounts' }).
-    then((accounts) => {
+  notify("Connecting to Metamask...")
+
+  window.ethereum.request({ method: 'eth_requestAccounts' })
+    .then((accounts) => {
+      if (accounts.length == 0){
+        notify("Please connect using Metamask");
+        return;
+      }
+      
       user = accounts[0];
-      notify("Welcome, you are logged in as " + user);
+      notify("Welcome, you are logged in as " + user +"\n KittyContract address: " + contractAddress);
 
       instance = new web3.eth.Contract(abi, contractAddress, { from: user });
 
@@ -46,35 +90,34 @@ $(document).ready(() => {
         console.log('Event removed');
       });
 
+    })
+    .catch(error =>{
+      console.log(error)
+      notify(error);
     });
-})
-
-
-$("#createkitty").click(async () => {
-
-  var currentDna = getDna();
-
-  notify("Creating a new kitty...");
-
-  console.log("Calling createKittyGen0...");
-
-  instance.methods.createKittyGen0(currentDna).send({})
-  .on('transactionhash', (txhash) => {
-    console.log(txhash);
-    notify(txhash);
-  })
-  .on('confirmation', (confnum, receipt)=>{
-    console.log('Confirmation number: '+ confnum);
-    notify(confnum +' confirmation');
-  })
-  .on('receipt', (receipt)=>{
-    console.log('Received a transaction receipt');
-    console.log('createKittyGen0 called');      
-  })
-  .on('error', (error)=>{
-    console.log('error');
-    notify(error.message);
-  });
 
 })
+
+
+
+// Helper functions
+
+function notify(message){
+    $('#notifications').html(message);
+}
+
+function connected()
+{
+    if (typeof instance === "undefined")
+      return false;
+
+
+    if (typeof user === "undefined")
+      return false;
+
+    return true;
+}
+
+
+
 

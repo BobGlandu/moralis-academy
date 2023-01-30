@@ -21,11 +21,41 @@
 </head>
 
 <body>
-    <div class="container p-5" style="margin-top: 12vh;margin-bottom: 10vh;">
-        <div align="center">
-            <h1 class="c-white">Kitty Freakout</h1>
-            <p class="c-white">This kitty accidently broke an OFAC sanction</p>
+    <header class="mynavbar">
+        <div class="kittylogo">Scared Kitties</div>
+        <ul class="mynavlist">
+            <li><a href="#">Grooming</a></li>
+            <li><a href="#">Breeding</a></li>
+            <li><a href="#">Catalog</a></li>
+        </ul>
+
+        <div class="logincontainer">
+            <button type="button" class="loginbutton" id="loginbutton">Login</button>
         </div>
+    </header>
+    <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">Kitty workshop</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">Kitty love tunnel</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">Catalog</a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <button type="button" class="btn btn-outline-primary me-2" id="loginbutton">Login</button>
+        </div>
+    </header>
+    <div class="container p-5" style="margin-top: 12vh;margin-bottom: 10vh;">
+        <!-- <div align="center">
+            <h1 >Kitty Freakout</h1>
+            <p >This kitty accidently broke an OFAC sanction</p>
+        </div> -->
         <div class="row">
             <div class="col-lg-6 catBox m-2 light-b-shadow">
                 <div class="cat">
@@ -144,9 +174,14 @@
             </div>
         </div>
         <p align="center">
-            <button id="randomkitty" class="white-btn">Get random kitty</button>
+            <button id="randomkitty" class="actionbutton">Get random kitty</button>
+            <button id="defaultkitty" class="actionbutton">Reset to factory settings</button>
+            <button id="createkitty" class="actionbutton">Mint new kitty</button>
+
+            <!-- <button id="randomkitty" class="white-btn">Get random kitty</button>
             <button id="defaultkitty" class="white-btn">Reset to factory settings</button>
-            <button id="createkitty" class="red-btn">Mint new kitty</button>
+            <button id="createkitty" class="red-btn">Mint new kitty</button> -->
+
             <div id="notifications">...</div>
         </p>
     </div>

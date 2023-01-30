@@ -28,3 +28,7 @@ build/contracts/Migrations.json
 build/contracts/IERC165.json
 build/contracts/ISupportsERC721.json
 build/contracts/Kittycontract.json
+
+client/chatgpt.css
+client/chatgpt.html
+build/contracts/ISupportsERC721.json

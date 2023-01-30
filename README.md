@@ -7,22 +7,34 @@ https://academy.moralis.io/courses/ethereum-dapp-programming
 Everything was built and tested under Ubuntu 22.04.
 
 
-## How to run the project?
+Contents:
+
+- [NFT Marketplace](#nft-marketplace)
+- [How to run the project?](#how-to-run-the-project)
+  - [Deploy the contract to ganache](#deploy-the-contract-to-ganache)
+  - [Configure Metamask](#configure-metamask)
+  - [Start the web app](#start-the-web-app)
+- [How to run unit tests?](#how-to-run-unit-tests)
+
+
+# How to run the project?
 
 
 Pre-requisites: the project runs within truffle suite. You must have truffle and ganache installed.
+
+I am using vscode with Live Server extension installed.
 
 
 - truffle will be used for running contract migration and unit tests
 - ganache will run the local blockchain that metamask will connect to
 
-### Deploy the contract to ganache
+## Deploy the contract to ganache
 
 truffle-config.js defines a `development` network that points to ganache
 
 1. Start ganache
 
-ganache initates a local blockchain an creates 10 test accounts. 
+Ganache initates a local blockchain an creates 10 test accounts. 
 
 ```
 $ ganache
@@ -129,24 +141,51 @@ var user;
 // var contractAddress = "0x1753C9f8bFd56c0A21D9a6552bDC7A5cbE0a3E5b";//Truffle develop
 var contractAddress = "0xD7321D5a196CF15e5a85390bDB0aC946092720f5";  //Ganache
 
+
 ```
 
+## Configure Metamask
 
-### Configure Metamask
-
-
-
+1. Create a network to Ganache in Metamask with details
 
 
-## How to run unit tests
+```
+Chain Id
+==================
+1337
+
+RPC Listening on 127.0.0.1:8545
+
+```
+
+2. Add the Ganache account 0 to Metamask by importing its private key
+
+
+## Start the web app
+
+Pre-requisites:
+- Live Server extension is installed under vscode
+
+Right-click index.html >  *Open with live server*
+
+# How to run unit tests?
 
 
 1. Install truffle-assertions:
 
-> npm install truffle-assertions
+```
+$ npm install truffle-assertions
+```
 
 2. Run truffle develop
-> truffle develop
+
+```
+$ truffle develop
+```
 
 3. Run the tests
-> test
+   
+```
+$ test
+```
+
